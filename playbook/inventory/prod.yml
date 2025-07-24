@@ -2,15 +2,21 @@
 clickhouse:
   hosts:
     clickhouse-01:
-      ansible_host: 84.201.139.55
+      ansible_host: 84.201.139.66
       ansible_user: admin
       ansible_ssh_private_key_file: ~/.ssh/admin
 
 vector:
   hosts:
     vector-01:
-      ansible_host: 51.250.110.60
+      ansible_host: 89.169.175.160
       ansible_user: admin
       ansible_ssh_private_key_file: ~/.ssh/admin
 
 
+lighthouse:
+  hosts:
+    lighthouse-01:
+      ansible_host: 84.201.142.223
+      ansible_user: admin
+      ansible_ssh_private_key_file: ~/.ssh/admin
