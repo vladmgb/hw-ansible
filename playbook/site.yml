@@ -80,7 +80,7 @@
 
 - name: Install and Configure Lighthouse (Nginx + Git)
   hosts: lighthouse-01
-  become: true  
+  become: true
 
   handlers:
     - name: Restart Nginx
@@ -93,22 +93,25 @@
       ansible.builtin.yum:
         name: epel-release
         state: present
-    - name: Add Nginx repository
-      ansible.builtin.yum_repository:
-        name: nginx
-        description: Nginx Official Repo
-        baseurl: https://nginx.org/packages/centos/7/$basearch/
-        gpgcheck: yes
-        gpgkey: https://nginx.org/keys/nginx_signing.key
-        enabled: yes
+    - name: Create Nginx repo file  # ✅ Исправлено
+      ansible.builtin.copy:
+        content: |
+          [nginx]
+          name=nginx repo
+          baseurl=https://nginx.org/packages/centos/7/$basearch/
+          gpgcheck=0
+          enabled=1
+        dest: /etc/yum.repos.d/nginx.repo
+        owner: root
+        group: root
+        mode: "0644"
     - name: Update YUM cache
       ansible.builtin.yum:
-        update_cache: yes
+        update_cache: true
     - name: Install Nginx
       ansible.builtin.yum:
         name: nginx
         state: present
-        enablerepo: nginx  
     - name: Install Git
       ansible.builtin.yum:
         name: git
@@ -126,7 +129,7 @@
         version: master
     - name: Configure Lighthouse Nginx site
       ansible.builtin.template:
-        src: lighthouse.conf.j2 
+        src: lighthouse.conf.j2
         dest: /etc/nginx/conf.d/lighthouse.conf
         mode: "0644"
       notify: Restart Nginx
