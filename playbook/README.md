@@ -1,4 +1,4 @@
-##Установка clickhouse,vector и lighthouse
+## Установка clickhouse, vector и lighthouse
 
 Playbook:
 
